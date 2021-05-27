@@ -1,0 +1,5 @@
+#!/bin/sh
+cd "$( dirname "$0" )"
+tmux send-keys -t bot "exit" ENTER
+sleep 1
+gzip -c logs/latest.log > "logs/$(date --iso-8601=seconds).log.gz"

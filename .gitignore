@@ -14,6 +14,7 @@ nbdist/
 
 # Log file
 *.log
+logs/*.log.gz
 
 # BlueJ files
 *.ctxt
