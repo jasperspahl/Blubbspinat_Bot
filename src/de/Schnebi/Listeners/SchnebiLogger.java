@@ -20,8 +20,15 @@ public class SchnebiLogger extends ListenerAdapter {
 
                 Calendar cal = Calendar.getInstance();
                 SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
-                System.out.println("\nSchnebi Logger: Received Message!" + "\nTime:    " + sdf.format(cal.getTime()) + "\nServer:  " + event.getGuild() + "\nChannel: " + event.getChannel()
-                        + "\nSender:  " + event.getAuthor() + "\nContent Start: \n" + event.getMessage().getContentDisplay() + "\nContent End\n");
+                System.out.println(
+                        "\nSchnebi Logger: Received Message!" +
+                        "\nTime:    " + sdf.format(cal.getTime()) +
+                        "\nServer:  " + event.getGuild() +
+                        "\nChannel: " + event.getChannel() +
+                        "\nSender:  " + event.getAuthor() +
+                        "\nContent Start: \n" + event.getMessage().getContentDisplay() +
+                        "\nContent End\n"
+                );
 
                 /* Output Template
                 * Server:  [Type (G = Guild)] [Name] [ID]
