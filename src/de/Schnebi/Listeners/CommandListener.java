@@ -74,7 +74,7 @@ public class CommandListener extends ListenerAdapter {
         int DateNowDay = DateNow.getDayOfMonth(), DateNowMonth = DateNow.getMonthValue(), DateNowYear = DateNow.getYear();
         int DateJoinedGuildDay = DateJoinedGuild.getDayOfMonth(), DateJoinedGuildMonth = DateJoinedGuild.getMonthValue(), DateJoinedGuildYear = DateJoinedGuild.getYear();
 
-        int DateOnServerYear = 0, DateOnServerMonth = 0, DateOnServerDay = 0;
+        int DateOnServerYear, DateOnServerMonth, DateOnServerDay;
 
         //Calculating Time on Guild in Date
         DateOnServerDay = DateNowDay - DateJoinedGuildDay;
@@ -144,7 +144,6 @@ public class CommandListener extends ListenerAdapter {
                     messagePrefix = Character.toString(messageContentDisplay.charAt(0));
 
                     TextChannel channel = event.getTextChannel();
-                    Member member = event.getMember();
 
                     if (toggledSpaces && messageContentDisplay.contains("  ")) {
                         String input = messageContentDisplay;
@@ -276,8 +275,8 @@ public class CommandListener extends ListenerAdapter {
                                 int JahrNow = DateNowYear, JahrPast = DateJoinedGuildYear;
                                 int[] Jahre = (IntStream.rangeClosed(JahrPast, JahrNow).toArray());
 
-                                for (int i = 0; i < Jahre.length; i++) {
-                                    if (Jahre[i] % 4 == 0) {
+                                for (int j : Jahre) {
+                                    if (j % 4 == 0) {
                                         DateOnServerDay++;
                                     }
                                 }
@@ -314,7 +313,7 @@ public class CommandListener extends ListenerAdapter {
                             String message = event.getMessage().getContentDisplay().substring(8);
                             String[] everyChar = message.split("");
                             String outgoingMessage = "";
-                            String einChar = "";
+                            String einChar;
 
                             for (int i = 0; i < everyChar.length; i++) {
                                 if (i % 2 == 1) {
@@ -339,11 +338,14 @@ public class CommandListener extends ListenerAdapter {
                             System.out.println("CommandListener: Detected message '" + args[0] + "'. Responding with definition of Frühstück");
                             List<Member> members = event.getGuild().getMembers();
                             Member member123 = null;
-                            for (int i = 0; i < members.size() || members.get(i).getId().equals("787709661842505748"); i++) {
-                                member123 = members.get(i);
+                            for (Member member : members) {
+                                member123 = member;
+                                if (member123.getId().equals("787709661842505748")) {
+                                    break;
+                                }
                             }
                             embedBuilder.addField("Frühstück", "Also Frühstück ist wenn zwei Individuuen einer Tierart (oder unterschiedlicher Tierarten) sich zu einem nächtlichen oder täglichen Beischlaf treffen, um die Möglichkeit der Fortpflanzung herbeizuführen oder  skandalöserweise einfach Spaß zu haben", false);
-                            embedBuilder.addField("~" + member123.getAsMention(), "https://discord.com/channels/788794254125432849/790513198662680616/824921467002028032", false);
+                            embedBuilder.addField("~" + member123.getEffectiveName(), "https://discord.com/channels/788794254125432849/790513198662680616/824921467002028032", false);
                             channel.sendMessage(embedBuilder.build()).queue();
                         } else if (args[0].equalsIgnoreCase("delete")) {
                             int amount = Integer.parseInt(args[1]);

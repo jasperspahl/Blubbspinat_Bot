@@ -31,14 +31,12 @@ public class GiveawayListener extends ListenerAdapter {
     public static String item, unit;
     public static int time, secondMS = 1000;
     public static long timeInMS;
-    public static List<Member> participants = new ArrayList<Member>();
+    public static List<Member> participants = new ArrayList<>();
     public static Timer timer = new Timer();
     public static Timer timerReveal = new Timer();
     public static Timer timerNr2 = new Timer();
 
     public static String messageID;
-
-    public static boolean giveawayRunning = false;
 
     @Override
 
@@ -54,13 +52,13 @@ public class GiveawayListener extends ListenerAdapter {
                 unit = args[args.length - 1].substring(args[args.length - 1].length() - 1, args[args.length - 1].length());
 
                 if (unit.equalsIgnoreCase("s")) {
-                    timeInMS = time * secondMS;
+                    timeInMS = (long) time * secondMS;
                 } else if (unit.equalsIgnoreCase("m")) {
-                    timeInMS = time * 60 * secondMS;
+                    timeInMS = (long) time * 60 * secondMS;
                 } else if (unit.equalsIgnoreCase("h")) {
-                    timeInMS = time * 60 * 60 * secondMS;
+                    timeInMS = (long) time * 60 * 60 * secondMS;
                 } else if (unit.equalsIgnoreCase("d")) {
-                    timeInMS = 24 * 60 * 60 * secondMS;
+                    timeInMS = (long) 24 * 60 * 60 * secondMS;
                 }
 
                 embedBuilder.clear();
@@ -85,9 +83,9 @@ public class GiveawayListener extends ListenerAdapter {
                             embedBuilder.addField(event.getMember().getEffectiveName(), "Zu gewinnen gibt es '" + item + "'. Reagiert auf diese Nachricht um als Teilnehmer registriert zu werden\n", false);
                             embedBuilder.addField("Verbleibende Zeit", convertmillis(timeInMS), false);
                             message.editMessage(embedBuilder.build()).queue();
-                            timeInMS = timeInMS - 5 * secondMS;
+                            timeInMS = timeInMS - 5L * secondMS;
                         }
-                    }, 0 ,5 * secondMS);
+                    }, 0 , 5L * secondMS);
                     
                     timer.schedule(new TimerTask() {
                         public void run() {
@@ -139,7 +137,7 @@ public class GiveawayListener extends ListenerAdapter {
     }
     
     public static String convertmillis(long input) {
-        int days = 0, hours = 0, minutes = 0, seconds = 0, millis = 0;
+        int days = 0, hours = 0, minutes = 0, seconds = 0, millis;
 
         int day = 86400000;
         int hour = 3600000;

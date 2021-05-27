@@ -51,15 +51,15 @@ public class BlubbspinatBot_MainClass {
         
 
         this.shardMan = builder.build();
-        CheckForshutdown();
+        CheckForShutdown();
 
     }
 
-    public void CheckForshutdown() {
+    public void CheckForShutdown() {
 
         new Thread(() -> {
 
-            String line = "";
+            String line;
             BufferedReader Bfrdreader = new BufferedReader(new InputStreamReader(System.in));
             try {
                 while ((line = Bfrdreader.readLine()) != null) {
