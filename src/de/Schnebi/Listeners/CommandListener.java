@@ -335,7 +335,9 @@ public class CommandListener extends ListenerAdapter {
                             channel.sendMessage(embedBuilder.build()).queue();
                         } else if (args[0].equalsIgnoreCase("frühstück")) {
                             System.out.println("CommandListener: Detected message '" + args[0] + "'. Responding with definition of Frühstück");
+                            
                             Member BETTER_member123 = event.getGuild().getMemberById("787709661842505748");
+                            
                             embedBuilder.addField("Frühstück", "Also Frühstück ist wenn zwei Individuuen einer Tierart (oder unterschiedlicher Tierarten) sich zu einem nächtlichen oder täglichen Beischlaf treffen, um die Möglichkeit der Fortpflanzung herbeizuführen oder  skandalöserweise einfach Spaß zu haben", false);
                             embedBuilder.addField("~" + BETTER_member123.getEffectiveName(), "https://discord.com/channels/788794254125432849/790513198662680616/824921467002028032", false);
                             channel.sendMessage(embedBuilder.build()).queue();
