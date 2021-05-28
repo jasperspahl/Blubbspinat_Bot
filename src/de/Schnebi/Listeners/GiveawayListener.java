@@ -114,7 +114,7 @@ public class GiveawayListener extends ListenerAdapter {
                             embedBuilder.setFooter("+blubb");
                             embedBuilder.setColor(Color.GREEN);
                             embedBuilder.addField(event.getMember().getEffectiveName(), "Der Gewinner des Giveaways von " + item + " ist " + participants.get(randomNumer).getAsMention()
-                                    + "!\nGlückwunsch an ihn und viel Glück beim nächsten Mahl an die anderen " + (participants.size() - 1) + " Teilnehmer!", false);
+                                    + "!\nGlÃ¼ckwunsch an ihn und viel GlÃ¼ck beim nÃ¤chsten Mahl an die anderen " + (participants.size() - 1) + " Teilnehmer!", false);
 
                             event.getChannel().sendMessage(embedBuilder.build()).queue();
                             running = false;

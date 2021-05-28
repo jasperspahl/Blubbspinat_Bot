@@ -32,7 +32,7 @@ public class CommandListener extends ListenerAdapter {
     public String[] args;
 
     public String commands = "```prefix: Gibt den prefix an, in diesem Fall '" + prefix + "'\nblubb: Listet unsere Commands auf.\nhallo: blubb!\nwerist @User: Gibt informationen Ã¼ber den User wieder"
-            + "\ncoinflip/münzwurf: Wirft eine Münze\ndice/würfel: Würfelt eine zufällige Zahl\ngarticphone/gp: Link für Gartic Phone\ncardsagainsthumanity/cah: Link für Cards Against Humanity"
+            + "\ncoinflip/mÃ¼nzwurf: Wirft eine MÃ¼nze\ndice/wÃ¼rfel: WÃ¼rfelt eine zufÃ¼llige Zahl\ngarticphone/gp: Link fÃ¼r Gartic Phone\ncardsagainsthumanity/cah: Link fÃ¼r Cards Against Humanity"
             + "\nquote: Zitiert dich selbst\nstats: Zeigt die Statistik eines Nutzers an\nvaried: nA wAs MaChT dAs WoHl?\nohrwurm: Drei Chinesen mit dem Kontrabass\ngiveaway: Erlaubt es dir etwas an andere zu verschenken"
             + "\numfrage: Erlaubt es dir eine Umfrage aus zwei Optionen zu erstellen```";
 
@@ -333,10 +333,10 @@ public class CommandListener extends ListenerAdapter {
                             embedBuilder.addField("3 Giraffen mit nem Kontrabass", "Drei Giraffen mit dem Kontrabass\nsaÃŸen auf der StraÃŸe und erzÃ¤hlten sich was\n"
                                     + "Da kamen die Elefanten, fragten 'Was ist denn das?'\nDrei Giraffen mit dem Kontrabass!", false);
                             channel.sendMessage(embedBuilder.build()).queue();
-                        } else if (args[0].equalsIgnoreCase("frühstück")) {
-                            System.out.println("CommandListener: Detected message '" + args[0] + "'. Responding with definition of Frühstück");
+                        } else if (args[0].equalsIgnoreCase("frÃ¼hstÃ¼ck")) {
+                            System.out.println("CommandListener: Detected message '" + args[0] + "'. Responding with definition of FrÃ¼hstÃ¼ck");
                             Member BETTER_member123 = event.getGuild().getMemberById("787709661842505748");
-                            embedBuilder.addField("Frühstück", "Also Frühstück ist wenn zwei Individuuen einer Tierart (oder unterschiedlicher Tierarten) sich zu einem nächtlichen oder täglichen Beischlaf treffen, um die Möglichkeit der Fortpflanzung herbeizuführen oder  skandalöserweise einfach Spaß zu haben", false);
+                            embedBuilder.addField("FrÃ¼hstÃ¼ck", "Also FrÃ¼hstÃ¼ck ist wenn zwei Individuuen einer Tierart (oder unterschiedlicher Tierarten) sich zu einem nÃ¤chtlichen oder tÃ¤glichen Beischlaf treffen, um die MÃ¶glichkeit der Fortpflanzung herbeizufÃ¼hren oder  skandalÃ¶serweise einfach SpaÃŸ zu haben", false);
                             embedBuilder.addField("~" + BETTER_member123.getEffectiveName(), "https://discord.com/channels/788794254125432849/790513198662680616/824921467002028032", false);
                             channel.sendMessage(embedBuilder.build()).queue();
                         } else if (args[0].equalsIgnoreCase("delete")) {
