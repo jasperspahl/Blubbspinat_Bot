@@ -29,101 +29,201 @@ public class CommandListener extends ListenerAdapter {
     public EmbedBuilder embedBuilder = new EmbedBuilder();
     public String BannedUsers = " ";
     public boolean toggledSpaces = false;
+    public String[] args;
 
     public String commands = "```prefix: Gibt den prefix an, in diesem Fall '" + prefix + "'\nblubb: Listet unsere Commands auf.\nhallo: blubb!\nwerist @User: Gibt informationen Ã¼ber den User wieder"
-            + "\ncoinflip/mÃ¼nzwurf: Wirft eine MÃ¼nze\ndice/wÃ¼rfel: WÃ¼rfelt eine zufÃ¤llige Zahl\ngarticphone/gp: Link fÃ¼r Gartic Phone\ncardsagainsthumanity/cah: Link fÃ¼r Cards Against Humanity"
+            + "\ncoinflip/münzwurf: Wirft eine Münze\ndice/würfel: Würfelt eine zufällige Zahl\ngarticphone/gp: Link für Gartic Phone\ncardsagainsthumanity/cah: Link für Cards Against Humanity"
             + "\nquote: Zitiert dich selbst\nstats: Zeigt die Statistik eines Nutzers an\nvaried: nA wAs MaChT dAs WoHl?\nohrwurm: Drei Chinesen mit dem Kontrabass\ngiveaway: Erlaubt es dir etwas an andere zu verschenken"
             + "\numfrage: Erlaubt es dir eine Umfrage aus zwei Optionen zu erstellen```";
 
     private void playerStats(MessageReceivedEvent event) {
-        embedBuilder.addField("User: ", event.getMember().getEffectiveName(), false);
-        embedBuilder.addField("ID", event.getMember().getId(), false);
-        //
-        //Created
-        LocalDate TimeCreatedLocalDate = event.getMember().getTimeCreated().toLocalDate();
-        LocalTime TimeCreatedLocalTime = (event.getMember().getTimeCreated().toLocalTime());
+        if (args.length == 1) {
+            embedBuilder.addField("User: ", event.getMember().getEffectiveName(), false);
+            embedBuilder.addField("ID", event.getMember().getId(), false);
+            //
+            //Created
+            LocalDate TimeCreatedLocalDate = event.getMember().getTimeCreated().toLocalDate();
+            LocalTime TimeCreatedLocalTime = (event.getMember().getTimeCreated().toLocalTime());
 
-        String[] TimeArgs = TimeCreatedLocalDate.toString().split("-");
-        String TimeCreated = TimeArgs[2] + "." + TimeArgs[1] + "." + TimeArgs[0];
+            String[] TimeArgs = TimeCreatedLocalDate.toString().split("-");
+            String TimeCreated = TimeArgs[2] + "." + TimeArgs[1] + "." + TimeArgs[0];
 
-        embedBuilder.addField("Userprofil erstellt:", TimeCreated + "\n" + TimeCreatedLocalTime.toString().substring(0, 8), false);
+            embedBuilder.addField("Userprofil erstellt:", TimeCreated + "\n" + TimeCreatedLocalTime.toString().substring(0, 8), false);
 
-        //
-        //Joined
-        LocalDate TimeJoinedLocalDate = event.getMember().getTimeJoined().toLocalDate();
-        LocalTime TimeJoinedLocalTime = event.getMember().getTimeJoined().toLocalTime();
+            //
+            //Joined
+            LocalDate TimeJoinedLocalDate = event.getMember().getTimeJoined().toLocalDate();
+            LocalTime TimeJoinedLocalTime = event.getMember().getTimeJoined().toLocalTime();
 
-        String[] TimeArgs2 = TimeJoinedLocalDate.toString().split("-");
-        String TimeJoined = TimeArgs2[2] + "." + TimeArgs2[1] + "." + TimeArgs2[0];
+            String[] TimeArgs2 = TimeJoinedLocalDate.toString().split("-");
+            String TimeJoined = TimeArgs2[2] + "." + TimeArgs2[1] + "." + TimeArgs2[0];
 
-        embedBuilder.addField("Dem Server beigetreten:", TimeJoined + "\n" + TimeJoinedLocalTime.toString().substring(0, 8), false);
+            embedBuilder.addField("Dem Server beigetreten:", TimeJoined + "\n" + TimeJoinedLocalTime.toString().substring(0, 8), false);
 
-        //
-        //OnGuildSince
-        //                       Ja  Fe  Ma  Ap  Ma Jun Jul  Au Sep  Ok  No  De
-        int[] monthsInDays = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+            //
+            //OnGuildSince
+            //                       Ja  Fe  Ma  Ap  Ma Jun Jul  Au Sep  Ok  No  De
+            int[] monthsInDays = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
-        //declaring shit
-        LocalDate DateNow, DateJoinedGuild;
+            //declaring shit
+            LocalDate DateNow, DateJoinedGuild;
 
-        //initialising the DATE
-        DateNow = LocalDate.now();
-        DateJoinedGuild = event.getMember().getTimeJoined().toLocalDate();
+            //initialising the DATE
+            DateNow = LocalDate.now();
+            DateJoinedGuild = event.getMember().getTimeJoined().toLocalDate();
 
-        //getting Day, Month and Year
-        int DateNowDay = DateNow.getDayOfMonth(), DateNowMonth = DateNow.getMonthValue(), DateNowYear = DateNow.getYear();
-        int DateJoinedGuildDay = DateJoinedGuild.getDayOfMonth(), DateJoinedGuildMonth = DateJoinedGuild.getMonthValue(), DateJoinedGuildYear = DateJoinedGuild.getYear();
+            //getting Day, Month and Year
+            int DateNowDay = DateNow.getDayOfMonth(), DateNowMonth = DateNow.getMonthValue(), DateNowYear = DateNow.getYear();
+            int DateJoinedGuildDay = DateJoinedGuild.getDayOfMonth(), DateJoinedGuildMonth = DateJoinedGuild.getMonthValue(), DateJoinedGuildYear = DateJoinedGuild.getYear();
 
-        int DateOnServerYear, DateOnServerMonth, DateOnServerDay;
+            int DateOnServerYear, DateOnServerMonth, DateOnServerDay;
 
-        //Calculating Time on Guild in Date
-        DateOnServerDay = DateNowDay - DateJoinedGuildDay;
-        DateOnServerMonth = DateNowMonth - DateJoinedGuildMonth;
-        DateOnServerYear = DateNowYear - DateJoinedGuildYear;
+            //Calculating Time on Guild in Date
+            DateOnServerDay = DateNowDay - DateJoinedGuildDay;
+            DateOnServerMonth = DateNowMonth - DateJoinedGuildMonth;
+            DateOnServerYear = DateNowYear - DateJoinedGuildYear;
 
-        if (DateOnServerDay < 0) {
-            DateOnServerDay = DateOnServerDay + monthsInDays[DateJoinedGuildMonth];
-            DateOnServerMonth = DateOnServerMonth - 1;
-        }
-        if (DateOnServerMonth < 0) {
-            DateOnServerMonth = DateOnServerMonth + 12;
-            DateOnServerYear = DateOnServerYear - 1;
-        }
+            if (DateOnServerDay < 0) {
+                DateOnServerDay = DateOnServerDay + monthsInDays[DateJoinedGuildMonth];
+                DateOnServerMonth = DateOnServerMonth - 1;
+            }
+            if (DateOnServerMonth < 0) {
+                DateOnServerMonth = DateOnServerMonth + 12;
+                DateOnServerYear = DateOnServerYear - 1;
+            }
 
-        int JahrNow = DateNowYear, JahrPast = DateJoinedGuildYear;
-        int[] Jahre = (IntStream.rangeClosed(JahrPast, JahrNow).toArray());
+            int JahrNow = DateNowYear, JahrPast = DateJoinedGuildYear;
+            int[] Jahre = (IntStream.rangeClosed(JahrPast, JahrNow).toArray());
 
-        for (int j : Jahre) {
-            if (j % 4 == 0) {
-                DateOnServerDay++;
+            for (int j : Jahre) {
+                if (j % 4 == 0) {
+                    DateOnServerDay++;
+                }
+            }
+            String DateOnServer = "";
+
+            String strYear = " Jahren", strMonth = " Monaten und ", strDay = " Tagen";
+            if (DateOnServerYear == 1) {
+                strYear = " Jahr";
+            }
+            if (DateOnServerMonth == 1) {
+                strMonth = " Monat und ";
+            }
+            if (DateOnServerDay == 1) {
+                strDay = " Tag";
+            }
+
+            if (DateOnServerYear > 0) {
+                DateOnServer = DateOnServerYear + strYear + DateOnServerMonth + strMonth + DateOnServerDay + strDay;
+            } else if (DateOnServerMonth > 0) {
+                DateOnServer = DateOnServerMonth + strMonth + DateOnServerDay + strDay;
+            } else if (DateOnServerDay > 0) {
+                DateOnServer = DateOnServerDay + strDay;
+            }
+
+            embedBuilder.addField("Auf dem Server seit:", DateOnServer, true);
+            //Message send
+            event.getTextChannel().sendMessage(embedBuilder.build()).queue();
+            System.out.println("CommandListener: Detected message 'stats' with argslength of 1. Responding by to User " + event.getMember().getEffectiveName() + " by giving following stats: \n" + TimeCreated + "\n"
+                    + TimeCreatedLocalTime.toString().substring(0, 8) + "\n" + TimeJoined + "\n" + TimeJoinedLocalTime.toString().substring(0, 8) + "\nmay be not correct idk didnt rework this");
+        } else if (args.length == 2) {
+            List<Member> TaggedUsers = event.getMessage().getMentionedMembers();
+            Member MemberStats = TaggedUsers.get(0);
+
+            if (MemberStats.hasPermission(Permission.VIEW_CHANNEL)) {
+
+                embedBuilder.addField("User: ", MemberStats.getEffectiveName(), false);
+                embedBuilder.addField("ID", MemberStats.getId(), false);
+                //                        
+                //Created
+                LocalDate TimeCreatedLocalDate = MemberStats.getTimeCreated().toLocalDate();
+                LocalTime TimeCreatedLocalTime = MemberStats.getTimeCreated().toLocalTime();
+
+                String[] TimeArgs = TimeCreatedLocalDate.toString().split("-");
+                String TimeCreated = TimeArgs[2] + "." + TimeArgs[1] + "." + TimeArgs[0];
+
+                embedBuilder.addField("Userprofil erstellt:", TimeCreated + "\n" + TimeCreatedLocalTime.toString().substring(0, 8), false);
+
+                //
+                //Joined
+                LocalDate TimeJoinedLocalDate = MemberStats.getTimeJoined().toLocalDate();
+                LocalTime TimeJoinedLocalTime = MemberStats.getTimeJoined().toLocalTime();
+
+                String[] TimeArgs2 = TimeJoinedLocalDate.toString().split("-");
+                String TimeJoined = TimeArgs2[2] + "." + TimeArgs2[1] + "." + TimeArgs2[0];
+
+                embedBuilder.addField("Dem Server beigetreten:", TimeJoined + "\n" + TimeJoinedLocalTime.toString().substring(0, 8), false);
+
+                //
+                //OnGuildSince
+                //                       Ja  Fe  Ma  Ap  Ma Jun Jul  Au Sep  Ok  No  De
+                int[] monthsInDays = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+                //declaring shit
+                LocalDate DateNow, DateJoinedGuild;
+
+                //initialising the DATE
+                DateNow = LocalDate.now();
+                DateJoinedGuild = MemberStats.getTimeJoined().toLocalDate();
+
+                //getting Day, Month and Year
+                int DateNowDay = DateNow.getDayOfMonth(), DateNowMonth = DateNow.getMonthValue(), DateNowYear = DateNow.getYear();
+                int DateJoinedGuildDay = DateJoinedGuild.getDayOfMonth(), DateJoinedGuildMonth = DateJoinedGuild.getMonthValue(), DateJoinedGuildYear = DateJoinedGuild.getYear();
+
+                int DateOnServerYear = 0, DateOnServerMonth = 0, DateOnServerDay = 0;
+
+                //Calculating Time on Guild in Date 
+                DateOnServerDay = DateNowDay - DateJoinedGuildDay;
+                DateOnServerMonth = DateNowMonth - DateJoinedGuildMonth;
+                DateOnServerYear = DateNowYear - DateJoinedGuildYear;
+
+                if (DateOnServerDay < 0) {
+                    DateOnServerDay = DateOnServerDay + monthsInDays[DateJoinedGuildMonth];
+                    DateOnServerMonth = DateOnServerMonth - 1;
+                }
+                if (DateOnServerMonth < 0) {
+                    DateOnServerMonth = DateOnServerMonth + 12;
+                    DateOnServerYear = DateOnServerYear - 1;
+                }
+
+                int JahrNow = DateNowYear, JahrPast = DateJoinedGuildYear;
+                int[] Jahre = (IntStream.rangeClosed(JahrPast, JahrNow).toArray());
+
+                for (int j : Jahre) {
+                    if (j % 4 == 0) {
+                        DateOnServerDay++;
+                    }
+                }
+
+                String DateOnServer = "";
+
+                String strYear = " Jahren", strMonth = " Monaten und ", strDay = " Tagen";
+                if (DateOnServerYear == 1) {
+                    strYear = " Jahr";
+                }
+                if (DateOnServerMonth == 1) {
+                    strMonth = " Monat und ";
+                }
+                if (DateOnServerDay == 1) {
+                    strDay = " Tag";
+                }
+
+                if (DateOnServerYear > 0) {
+                    DateOnServer = DateOnServerYear + strYear + DateOnServerMonth + strMonth + DateOnServerDay + strDay;
+                } else if (DateOnServerMonth > 0) {
+                    DateOnServer = DateOnServerMonth + strMonth + DateOnServerDay + strDay;
+                } else if (DateOnServerDay > 0) {
+                    DateOnServer = DateOnServerDay + strDay;
+                }
+
+                embedBuilder.addField("Auf dem Server seit:", DateOnServer, true);
+
+                //Message send
+                event.getChannel().sendMessage(embedBuilder.build()).queue();
+                System.out.println("CommandListener: Detected message 'stats' with argslength of 1. Responding by to User " + event.getMember().getEffectiveName() + " by giving following stats of "
+                        + MemberStats.getNickname() + ": \n" + TimeCreated + "\n" + TimeCreatedLocalTime.toString().substring(0, 8) + "\n" + TimeJoined + "\n" + TimeJoinedLocalTime.toString().substring(0, 8));
             }
         }
-        String DateOnServer = "";
-
-        String strYear = " Jahren", strMonth = " Monaten und ", strDay = " Tagen";
-        if (DateOnServerYear == 1) {
-            strYear = " Jahr";
-        }
-        if (DateOnServerMonth == 1) {
-            strMonth = " Monat und ";
-        }
-        if (DateOnServerDay == 1) {
-            strDay = " Tag";
-        }
-
-        if (DateOnServerYear > 0) {
-            DateOnServer = DateOnServerYear + strYear + DateOnServerMonth + strMonth + DateOnServerDay + strDay;
-        } else if (DateOnServerMonth > 0) {
-            DateOnServer = DateOnServerMonth + strMonth + DateOnServerDay + strDay;
-        } else if (DateOnServerDay > 0) {
-            DateOnServer = DateOnServerDay + strDay;
-        }
-
-        embedBuilder.addField("Auf dem Server seit:", DateOnServer, true);
-        //Message send
-        event.getTextChannel().sendMessage(embedBuilder.build()).queue();
-        System.out.println("CommandListener: Detected message 'stats' with argslength of 1. Responding by to User " + event.getMember().getEffectiveName() + " by giving following stats: \n" + TimeCreated + "\n"
-                + TimeCreatedLocalTime.toString().substring(0, 8) + "\n" + TimeJoined + "\n" + TimeJoinedLocalTime.toString().substring(0, 8) + "\nmay be not correct idk didnt rework this");
     }
 
     @Override
@@ -138,7 +238,6 @@ public class CommandListener extends ListenerAdapter {
                     embedBuilder.setColor(Color.GREEN);
 
                     String messageContentDisplay = event.getMessage().getContentDisplay();
-                    String[] args;
                     String messagePrefix;
                     args = messageContentDisplay.substring(1).split(" ");
                     messagePrefix = Character.toString(messageContentDisplay.charAt(0));
@@ -156,7 +255,6 @@ public class CommandListener extends ListenerAdapter {
                         channel.deleteMessageById(event.getMessageId()).queue();
                         channel.sendMessage(embedBuilder.build()).queue();
                     }
-                    
 
                     if (messageContentDisplay.equalsIgnoreCase("prefix")) {
                         System.out.println("CommandListener: Detected message 'prefix'. Answering with given prefix");
@@ -209,106 +307,8 @@ public class CommandListener extends ListenerAdapter {
                             embedBuilder.addField("~" + Author.getEffectiveName(), "", false);
 
                             channel.sendMessage(embedBuilder.build()).queue();
-                        } else if (args[0].equalsIgnoreCase("stats") && args.length == 1) {
-                            playerStats(event);
                         } else if (args[0].equalsIgnoreCase("stats") && args.length >= 2) {
-
-                            List<Member> TaggedUsers = event.getMessage().getMentionedMembers();
-                            Member MemberStats = TaggedUsers.get(0);
-
-                            if (MemberStats.hasPermission(Permission.VIEW_CHANNEL)) {
-
-                                embedBuilder.addField("User: ", MemberStats.getEffectiveName(), false);
-                                embedBuilder.addField("ID", MemberStats.getId(), false);
-                                //                        
-                                //Created
-                                LocalDate TimeCreatedLocalDate = MemberStats.getTimeCreated().toLocalDate();
-                                LocalTime TimeCreatedLocalTime = MemberStats.getTimeCreated().toLocalTime();
-
-                                String[] TimeArgs = TimeCreatedLocalDate.toString().split("-");
-                                String TimeCreated = TimeArgs[2] + "." + TimeArgs[1] + "." + TimeArgs[0];
-
-                                embedBuilder.addField("Userprofil erstellt:", TimeCreated + "\n" + TimeCreatedLocalTime.toString().substring(0, 8), false);
-
-                                //
-                                //Joined
-                                LocalDate TimeJoinedLocalDate = MemberStats.getTimeJoined().toLocalDate();
-                                LocalTime TimeJoinedLocalTime = MemberStats.getTimeJoined().toLocalTime();
-
-                                String[] TimeArgs2 = TimeJoinedLocalDate.toString().split("-");
-                                String TimeJoined = TimeArgs2[2] + "." + TimeArgs2[1] + "." + TimeArgs2[0];
-
-                                embedBuilder.addField("Dem Server beigetreten:", TimeJoined + "\n" + TimeJoinedLocalTime.toString().substring(0, 8), false);
-
-                                //
-                                //OnGuildSince
-                                //                       Ja  Fe  Ma  Ap  Ma Jun Jul  Au Sep  Ok  No  De
-                                int[] monthsInDays = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-
-                                //declaring shit
-                                LocalDate DateNow, DateJoinedGuild;
-
-                                //initialising the DATE
-                                DateNow = LocalDate.now();
-                                DateJoinedGuild = MemberStats.getTimeJoined().toLocalDate();
-
-                                //getting Day, Month and Year
-                                int DateNowDay = DateNow.getDayOfMonth(), DateNowMonth = DateNow.getMonthValue(), DateNowYear = DateNow.getYear();
-                                int DateJoinedGuildDay = DateJoinedGuild.getDayOfMonth(), DateJoinedGuildMonth = DateJoinedGuild.getMonthValue(), DateJoinedGuildYear = DateJoinedGuild.getYear();
-
-                                int DateOnServerYear = 0, DateOnServerMonth = 0, DateOnServerDay = 0;
-
-                                //Calculating Time on Guild in Date 
-                                DateOnServerDay = DateNowDay - DateJoinedGuildDay;
-                                DateOnServerMonth = DateNowMonth - DateJoinedGuildMonth;
-                                DateOnServerYear = DateNowYear - DateJoinedGuildYear;
-
-                                if (DateOnServerDay < 0) {
-                                    DateOnServerDay = DateOnServerDay + monthsInDays[DateJoinedGuildMonth];
-                                    DateOnServerMonth = DateOnServerMonth - 1;
-                                }
-                                if (DateOnServerMonth < 0) {
-                                    DateOnServerMonth = DateOnServerMonth + 12;
-                                    DateOnServerYear = DateOnServerYear - 1;
-                                }
-
-                                int JahrNow = DateNowYear, JahrPast = DateJoinedGuildYear;
-                                int[] Jahre = (IntStream.rangeClosed(JahrPast, JahrNow).toArray());
-
-                                for (int j : Jahre) {
-                                    if (j % 4 == 0) {
-                                        DateOnServerDay++;
-                                    }
-                                }
-
-                                String DateOnServer = "";
-
-                                String strYear = " Jahren", strMonth = " Monaten und ", strDay = " Tagen";
-                                if (DateOnServerYear == 1) {
-                                    strYear = " Jahr";
-                                }
-                                if (DateOnServerMonth == 1) {
-                                    strMonth = " Monat und ";
-                                }
-                                if (DateOnServerDay == 1) {
-                                    strDay = " Tag";
-                                }
-
-                                if (DateOnServerYear > 0) {
-                                    DateOnServer = DateOnServerYear + strYear + DateOnServerMonth + strMonth + DateOnServerDay + strDay;
-                                } else if (DateOnServerMonth > 0) {
-                                    DateOnServer = DateOnServerMonth + strMonth + DateOnServerDay + strDay;
-                                } else if (DateOnServerDay > 0) {
-                                    DateOnServer = DateOnServerDay + strDay;
-                                }
-
-                                embedBuilder.addField("Auf dem Server seit:", DateOnServer, true);
-
-                                //Message send
-                                channel.sendMessage(embedBuilder.build()).queue();
-                                System.out.println("CommandListener: Detected message 'stats' with argslength of 1. Responding by to User " + event.getMember().getEffectiveName() + " by giving following stats of "
-                                        + MemberStats.getNickname() + ": \n" + TimeCreated + "\n" + TimeCreatedLocalTime.toString().substring(0, 8) + "\n" + TimeJoined + "\n" + TimeJoinedLocalTime.toString().substring(0, 8));
-                            }
+                            playerStats(event);
                         } else if (args[0].equalsIgnoreCase("varied")) {
                             String message = event.getMessage().getContentDisplay().substring(8);
                             String[] everyChar = message.split("");
@@ -332,20 +332,12 @@ public class CommandListener extends ListenerAdapter {
                             System.out.println("CommandListener: Detected message '" + args[0] + "'. Responding with Songtext of '3 Giraffen mit nem Kontrabass' - ein Kinderlied");
                             embedBuilder.addField("3 Giraffen mit nem Kontrabass", "Drei Giraffen mit dem Kontrabass\nsaÃŸen auf der StraÃŸe und erzÃ¤hlten sich was\n"
                                     + "Da kamen die Elefanten, fragten 'Was ist denn das?'\nDrei Giraffen mit dem Kontrabass!", false);
-
                             channel.sendMessage(embedBuilder.build()).queue();
-                        } else if (args[0].equalsIgnoreCase("frÃ¼hstÃ¼ck")) {
-                            System.out.println("CommandListener: Detected message '" + args[0] + "'. Responding with definition of FrÃ¼hstÃ¼ck");
-                            List<Member> members = event.getGuild().getMembers();
-                            Member member123 = null;
-                            for (Member member : members) {
-                                member123 = member;
-                                if (member123.getId().equals("787709661842505748")) {
-                                    break;
-                                }
-                            }
-                            embedBuilder.addField("FrÃ¼hstÃ¼ck", "Also FrÃ¼hstÃ¼ck ist wenn zwei Individuuen einer Tierart (oder unterschiedlicher Tierarten) sich zu einem nÃ¤chtlichen oder tÃ¤glichen Beischlaf treffen, um die MÃ¶glichkeit der Fortpflanzung herbeizufÃ¼hren oder  skandalÃ¶serweise einfach SpaÃŸ zu haben", false);
-                            embedBuilder.addField("~" + member123.getEffectiveName(), "https://discord.com/channels/788794254125432849/790513198662680616/824921467002028032", false);
+                        } else if (args[0].equalsIgnoreCase("frühstück")) {
+                            System.out.println("CommandListener: Detected message '" + args[0] + "'. Responding with definition of Frühstück");
+                            Member BETTER_member123 = event.getGuild().getMemberById("787709661842505748");
+                            embedBuilder.addField("Frühstück", "Also Frühstück ist wenn zwei Individuuen einer Tierart (oder unterschiedlicher Tierarten) sich zu einem nächtlichen oder täglichen Beischlaf treffen, um die Möglichkeit der Fortpflanzung herbeizuführen oder  skandalöserweise einfach Spaß zu haben", false);
+                            embedBuilder.addField("~" + BETTER_member123.getEffectiveName(), "https://discord.com/channels/788794254125432849/790513198662680616/824921467002028032", false);
                             channel.sendMessage(embedBuilder.build()).queue();
                         } else if (args[0].equalsIgnoreCase("delete")) {
                             int amount = Integer.parseInt(args[1]);
@@ -353,7 +345,7 @@ public class CommandListener extends ListenerAdapter {
                                 List<Message> messages = channel.getHistory().retrievePast(amount).complete();
                                 channel.deleteMessages(messages).complete();
                             }
-                        } else if(args[0].equalsIgnoreCase("toggle")) {
+                        } else if (args[0].equalsIgnoreCase("toggle")) {
                             if (args[1].equalsIgnoreCase("space") || args[1].equalsIgnoreCase("spaces")) {
                                 toggledSpaces = !toggledSpaces;
                                 embedBuilder.addField("Leerzeichenersetzung", "Du hast die Leerzeichenersetzung nun auf `" + toggledSpaces + "` gesetzt", false);
