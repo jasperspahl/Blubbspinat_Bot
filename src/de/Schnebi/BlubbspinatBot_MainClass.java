@@ -40,6 +40,7 @@ public class BlubbspinatBot_MainClass {
         builder.setActivity(Activity.watching("dass der Blubbspinat nicht überkocht"));
         builder.setStatus(OnlineStatus.ONLINE);
         
+        //aktuell bilden alle diese Listener den Bot
         builder.addEventListeners(new SchnebiLogger());
         builder.addEventListeners(new CommandListener());
         builder.addEventListeners(new WerIstListener());
@@ -48,6 +49,10 @@ public class BlubbspinatBot_MainClass {
         builder.addEventListeners(new TicTacToeListener());
         builder.addEventListeners(new GiveawayListener());
         builder.addEventListeners(new UmfrageListener());
+        
+        //dieser soll all diese Listener in einer Klasse durch mehrere Methoden ersetzen.
+        //Dabei wird der Code der jeweiligen Listener (hoffentlich) durch Schnebi recoded
+        //builder.addEventListeners(new [noch_nicht_bekannter_Name());
         
 
         this.shardMan = builder.build();
