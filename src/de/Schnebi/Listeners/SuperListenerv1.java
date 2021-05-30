@@ -46,6 +46,10 @@ public class SuperListenerv1 extends ListenerAdapter {
 
         if (event.isFromType(ChannelType.TEXT) && event.getMessage().getAttachments().size() == 0) {
             if (!(event.getAuthor().isBot())) {
+                eventMember = event.getMember();
+                message = event.getMessage();
+                Channel = event.getTextChannel();
+                
                 embedBuilder.clear();
                 embedBuilder.setTitle("Blubbspinat Bot");
                 embedBuilder.setFooter("+blubb");
@@ -74,10 +78,6 @@ public class SuperListenerv1 extends ListenerAdapter {
 
                 if (messageContent.startsWith(prefix)) {
                     args = messageContent.substring(1).toLowerCase().split(" ");
-
-                    eventMember = event.getMember();
-                    message = event.getMessage();
-                    Channel = event.getTextChannel();
 
                     handleCommands(event, args);
                     Channel.deleteMessageById(message.getId()).queue();
