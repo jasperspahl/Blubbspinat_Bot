@@ -94,7 +94,7 @@ public class SuperListenerv1 extends ListenerAdapter {
                 switch (command[0]) {
                     case "v":
                     case "version":
-                        embedBuilder.addField("Version", "2.0", false);
+                        embedBuilder.addField("Version", "2.03", false);
                         break;
                     case "blubb":
                         embedBuilder.addField("Commands", commands, false);
@@ -249,7 +249,7 @@ public class SuperListenerv1 extends ListenerAdapter {
                 
                 randomNumber = new Random().nextInt(101) - 1;
                 
-                switch (randomNumber % 50) {
+                switch (randomNumber % 2) {
                     case 0:
                         outcome = "Kopf";
                         break;
