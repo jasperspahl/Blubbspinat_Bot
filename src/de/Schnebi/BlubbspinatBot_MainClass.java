@@ -5,6 +5,7 @@ import de.Schnebi.Listeners.CommandListener;
 import de.Schnebi.Listeners.GifListener;
 import de.Schnebi.Listeners.GiveawayListener;
 import de.Schnebi.Listeners.SchnebiLogger;
+import de.Schnebi.Listeners.SuperListenerv1;
 import de.Schnebi.Listeners.TicTacToeListener;
 import de.Schnebi.Listeners.UmfrageListener;
 import de.Schnebi.Listeners.WerIstListener;
@@ -42,19 +43,17 @@ public class BlubbspinatBot_MainClass {
         
         //aktuell bilden alle diese Listener bisher den Bot
         builder.addEventListeners(new SchnebiLogger());
-        builder.addEventListeners(new CommandListener());
-        builder.addEventListeners(new WerIstListener());
-        builder.addEventListeners(new RandomLuckListener());
-        builder.addEventListeners(new GifListener());
         builder.addEventListeners(new TicTacToeListener());
         builder.addEventListeners(new GiveawayListener());
         builder.addEventListeners(new UmfrageListener());
         
-        /*
-        * dieser soll all diese Listener in einer Klasse durch mehrere Methoden ersetzen.
-        * Dabei wird der Code der jeweiligen Listener (hoffentlich) durch Schnebi recoded
-        *
-        * builder.addEventListeners(new [noch_nicht_bekannter_Name());
+        builder.addEventListeners(new SuperListenerv1());
+        
+        /*Durch den SuperListener ersetzt. Könnten gelöscht werden aber Schnebi traut sich nicht weil dann was kaputt geht xD
+        *builder.addEventListeners(new CommandListener());
+        *builder.addEventListeners(new WerIstListener());
+        *builder.addEventListeners(new RandomLuckListener());
+        *builder.addEventListeners(new GifListener())
         */
 
         this.shardMan = builder.build();
