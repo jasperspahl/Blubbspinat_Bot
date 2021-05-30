@@ -1,14 +1,11 @@
 package de.Schnebi;
 
-import de.Schnebi.Listeners.RandomLuckListener;
-import de.Schnebi.Listeners.CommandListener;
-import de.Schnebi.Listeners.GifListener;
 import de.Schnebi.Listeners.GiveawayListener;
 import de.Schnebi.Listeners.SchnebiLogger;
 import de.Schnebi.Listeners.SuperListenerv1;
 import de.Schnebi.Listeners.TicTacToeListener;
 import de.Schnebi.Listeners.UmfrageListener;
-import de.Schnebi.Listeners.WerIstListener;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -40,21 +37,13 @@ public class BlubbspinatBot_MainClass {
 
         builder.setActivity(Activity.watching("dass der Blubbspinat nicht überkocht"));
         builder.setStatus(OnlineStatus.ONLINE);
-        
-        //aktuell bilden alle diese Listener bisher den Bot
+
         builder.addEventListeners(new SchnebiLogger());
         builder.addEventListeners(new TicTacToeListener());
         builder.addEventListeners(new GiveawayListener());
         builder.addEventListeners(new UmfrageListener());
-        
+
         builder.addEventListeners(new SuperListenerv1());
-        
-        /*Durch den SuperListener ersetzt. Könnten gelöscht werden aber Schnebi traut sich nicht weil dann was kaputt geht xD
-        *builder.addEventListeners(new CommandListener());
-        *builder.addEventListeners(new WerIstListener());
-        *builder.addEventListeners(new RandomLuckListener());
-        *builder.addEventListeners(new GifListener())
-        */
 
         this.shardMan = builder.build();
         CheckForShutdown();
