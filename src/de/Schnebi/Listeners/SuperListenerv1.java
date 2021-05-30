@@ -26,7 +26,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 public class SuperListenerv1 extends ListenerAdapter {
     
     boolean toggledSpaces = false;
-    String prefix = "+", messageContent;
+    String prefix = "+", messageContent, GifLink;
     String[] args;
     Member eventMember;
     Message message;
@@ -37,7 +37,8 @@ public class SuperListenerv1 extends ListenerAdapter {
     String commands = "```prefix: Gibt den prefix an, in diesem Fall '" + prefix + "'\nblubb: Listet unsere Commands auf.\nhallo: blubb!\nwerist @User: Gibt informationen über den User wieder"
             + "\ncoinflip/münzwurf: Wirft eine Münze\ndice/würfel: Würfelt eine zufüllige Zahl\ngarticphone/gp: Link für Gartic Phone\ncardsagainsthumanity/cah: Link für Cards Against Humanity"
             + "\nquote: Zitiert dich selbst\nstats: Zeigt die Statistik eines Nutzers an\nvaried: nA wAs MaChT dAs WoHl?\nohrwurm: Drei Chinesen mit dem Kontrabass\ngiveaway: Erlaubt es dir etwas an andere zu verschenken"
-            + "\numfrage: Erlaubt es dir eine Umfrage aus zwei Optionen zu erstellen```";
+            + "\numfrage: Erlaubt es dir eine Umfrage aus zwei Optionen zu erstellen\ntoggle space(s): (De)Aktiviert die Leerzeichenersetzung```";
+    String registredGifs = "```\nrawr\nyallah\negal\nohgod```";
     
     @Override
     public void onMessageReceived(MessageReceivedEvent event) throws IndexOutOfBoundsException {
@@ -55,19 +56,19 @@ public class SuperListenerv1 extends ListenerAdapter {
                         counter++;
                     }
                     embedBuilder.addField(event.getMember().getEffectiveName() + " wollte:", input + "\n\n sagen und nutze dabei `" + counter + "` Leerzeichen zu viel :man_facepalming:.", false);
-                    Channel.deleteMessageById(event.getMessageId()).queue();
+                    Channel.deleteMessageById(message.getId()).queue();
                     Channel.sendMessage(embedBuilder.build()).queue();
                 }
                 
                 if (messageContent.equalsIgnoreCase("prefix")) {
                     embedBuilder.addField("Prefix", "Unser prefix ist '" + prefix + "'", false);
 
-                    Channel.deleteMessageById(event.getMessageId()).queue();
+                    Channel.deleteMessageById(message.getId()).queue();
                     Channel.sendMessage(embedBuilder.build()).queue();
                 }
 
                 if (messageContent.startsWith(prefix)) {
-                    args = messageContent.substring(1).split(" ");
+                    args = messageContent.substring(1).toLowerCase().split(" ");
 
                     eventMember = event.getMember();
                     message = event.getMessage();
@@ -78,13 +79,14 @@ public class SuperListenerv1 extends ListenerAdapter {
                     embedBuilder.setFooter("+blubb");
                     embedBuilder.setColor(Color.GREEN);
 
-                    handleCommands(args);
+                    handleCommands(event, args);
+                    Channel.deleteMessageById(message.getId()).queue();
                 }
             }
         }
     }
     
-    void handleCommands(String[] command) {
+    void handleCommands(MessageReceivedEvent event, String[] command) {
         //switch > if
         switch (command.length) {
             case 1:
@@ -95,23 +97,126 @@ public class SuperListenerv1 extends ListenerAdapter {
                     case "hallo":
                         embedBuilder.addField("Blubb", "blubb blubb blubb!", false);
                         break;
+                    case "garticphone":
+                    case "gp":
+                        embedBuilder.addField("Garlic Phone - Stille Post", "https://garticphone.com/de", false);
+                        break;
+                    case "cardsagainsthumanity":
+                    case "cah":
+                        embedBuilder.addField("Cards against Humanity", "https://picturecards.online/static/index.html", false);
+                        break;
+                    case "codenames":
+                    case "cn":
+                        embedBuilder.addField("Codenames", "https://codenames.game/", false);
+                        break;
+                    case "quote":
+                        embedBuilder.addField("", messageContent.substring(7), false);
+                        embedBuilder.addField("~" + eventMember.getEffectiveName(), "", false);
+                    case "stats":
+                    case "memberstats":
+                        memberStats();
+                        break;
+                    case "varied":
+                        String message = messageContent.substring(8);
+                        String[] everyChar = message.split("");
+                        String outgoingMessage = ""; //darf nicht null sein, muss als "" deklariert werden
+                        String einChar;
+
+                        for (int i = 0; i < everyChar.length; i++) {
+                            if (i % 2 == 1) {
+                                einChar = everyChar[i].toUpperCase();
+                            } else {
+                                einChar = everyChar[i].toLowerCase();
+                            }
+                            outgoingMessage += einChar;
+                        }
+
+                        embedBuilder.addField("Varieded Message:", "\n" + outgoingMessage, false);
+                        break;
+                    case "ohrwurm":
+                        embedBuilder.addField("3 Giraffen mit nem Kontrabass", "Drei Giraffen mit dem Kontrabass\nsaßen auf der Straße und erzählten sich was\n"
+                                    + "Da kamen die Elefanten, fragten 'Was ist denn das?'\nDrei Giraffen mit dem Kontrabass!", false);
+                        break;
+                    case "frühstück":
+                        Member BETTER_member123 = event.getGuild().getMemberById("787709661842505748");
+                            
+                            embedBuilder.addField("Frühstück", "Also Frühstück ist wenn zwei Individuuen einer Tierart (oder unterschiedlicher Tierarten) sich zu einem nächtlichen oder täglichen Beischlaf treffen, um die Möglichkeit der Fortpflanzung herbeizuführen oder  skandalöserweise einfach Spaß zu haben", false);
+                            embedBuilder.addField("~" + BETTER_member123.getEffectiveName(), "https://discord.com/channels/788794254125432849/790513198662680616/824921467002028032", false);
+                            break;
                     default:
                         embedBuilder.addField(":thinking: hmmm", "Ups, da lief was schief. Ich kenne diesen Command nicht", false);
                 }
                 break;
             case 2:
-                if (command[0].equalsIgnoreCase("toggle") && (command[1].equalsIgnoreCase("space") || command[1].equalsIgnoreCase("spaces"))) {
-                    toggledSpaces = !toggledSpaces;
-                    embedBuilder.addField("Leerzeichenersetzung", "Du hast die Leerzeichenersetzung nun auf `" + toggledSpaces + "` gesetzt", false);
-                    
+                switch (command[0]) {
+                    case "stats":
+                    case "memberstats":
+                        memberStats();
+                        break;
+                    case "toggle":
+                        switch (command[1]) {
+                            case "space":
+                            case "spaces":
+                                toggledSpaces = !toggledSpaces;
+                                embedBuilder.addField("Leerzeichenersetzung", "Du hast die Leerzeichenersetzung nun auf `" + toggledSpaces + "` gesetzt", false);
+                                break;
+                        }
+                        break;
+                    case "delete":
+                        int amount = Integer.parseInt(command[1]);
+                        if (2 >= amount && amount <= 50) {
+                            List<Message> messages = Channel.getHistory().retrievePast(amount).complete();
+                            Channel.deleteMessages(messages).complete();
+                        }
+                        break;
+                    case "gif":
+                    case "gifs":
+                        gifHandler(event, command[1]);
+                        break;
+ 
                 }
                 break;
+                
+            default:
+                embedBuilder.addField(":thinking: hmmm", "Ups, da lief was schief. Ich kenne diesen Command nicht", false);
+                
                 }
+        
+        Channel.sendMessage(embedBuilder.build()).queue();
         
         //Nachricht muss am ende des Switches gesendet werden. Ausnahmefälle sowie unbekannte Commands müssen mit einer Fehlermeldung ausgegeben werden
         //embedBuilder.addField(":thinking: hmmm", "Ups, da lief was schief. Ich kenne diesen Command nicht", false);
         
         }
+    
+    void gifHandler(MessageReceivedEvent event, String gifName) {
+        GifLink = "default";
+        switch(gifName) {
+            case "help":
+                embedBuilder.addField("Gif Manager", "Unsere registrierten Commands für Gifs sind: \n" + registredGifs, false);
+                break;
+            case "rawr":
+                GifLink = "https://tenor.com/view/satan-kitty-strangers-devil-candy-gif-16092089";
+                break;
+            case "yallah":
+                GifLink = "https://tenor.com/view/yallah-dwayne-johnson-pointing-gif-14679728";
+                break;
+            case "egal":
+                GifLink = "https://tenor.com/view/egal-singing-ocean-sea-boat-ride-gif-16080257";
+                break;
+            case "ohgod":
+                GifLink = "https://tenor.com/view/shame-regret-panda-ohgod-whathaveidone-gif-4520297";
+            default:
+                embedBuilder.addField("Gif Manager", "Dieser Command ist mit keinem Gif verknüpft. Für eine Auflistung unserer Gifs nutze +gif help", false);
+        }
+        switch (GifLink) {
+            case "default":
+                Channel.sendMessage(embedBuilder.build()).queue();
+                break;
+            default:
+                Channel.sendMessage(GifLink).queue();
+        }
+    }
         
     void memberStats() {
         if (args.length == 1) {
