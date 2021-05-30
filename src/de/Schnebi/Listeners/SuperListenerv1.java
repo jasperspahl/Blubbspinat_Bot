@@ -274,7 +274,7 @@ public class SuperListenerv1 extends ListenerAdapter {
     }
     
     void weristHandler(MessageReceivedEvent event) {
-        String member = event.getMessage().getContentRaw().replaceAll("[<@!>]", "").toLowerCase();
+        String member = event.getMessage().getContentRaw().substring(8).replaceAll("[<@!>]", "").toLowerCase();
         switch (member) {
             case "jan":
             case "schnebi":
