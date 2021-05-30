@@ -18,6 +18,8 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.exceptions.ContextException;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 /**
@@ -80,7 +82,11 @@ public class SuperListenerv1 extends ListenerAdapter {
                     args = messageContent.substring(1).toLowerCase().split(" ");
 
                     handleCommands(event, args);
+                    try {
                     Channel.deleteMessageById(message.getId()).queue();
+                    } catch (Exception e) {
+                        //gibt trotzdem nen Error, weis nicht weshalb
+                    }
                 }
             }
         }
@@ -191,9 +197,10 @@ public class SuperListenerv1 extends ListenerAdapter {
                         break;
                     case "delete":
                         int amount = Integer.parseInt(command[1]);
-                        if (2 >= amount && amount <= 50) {
+                        if (2 <= amount && amount <= 50) {
                             List<Message> messages = Channel.getHistory().retrievePast(amount).complete();
                             Channel.deleteMessages(messages).complete();
+                            embedBuilder.addField("Gelöschte Nachrichten", "Ich habe erfolgreich " + amount + " Nachrichten gelöscht", false);
                         }
                         break;
                     case "gif":
