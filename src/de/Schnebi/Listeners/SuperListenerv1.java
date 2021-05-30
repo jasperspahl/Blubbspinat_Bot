@@ -190,9 +190,6 @@ public class SuperListenerv1 extends ListenerAdapter {
                     case "gifs":
                         gifHandler(event, command[1]);
                         break;
-                    case "werist":
-                        weristHandler(event);
-                        break;
                 }
                 break;
                 
@@ -200,6 +197,11 @@ public class SuperListenerv1 extends ListenerAdapter {
                 embedBuilder.addField(":thinking: hmmm", "Ups, da lief was schief. Ich kenne diesen Command nicht", false);
                 
         }
+        if (args[0].equalsIgnoreCase("werist")) {
+            weristHandler(event);
+        }
+        
+        
         if (!nonEmbed) {
         Channel.sendMessage(embedBuilder.build()).queue();
         } else {
