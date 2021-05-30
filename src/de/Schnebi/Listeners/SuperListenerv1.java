@@ -88,12 +88,42 @@ public class SuperListenerv1 extends ListenerAdapter {
     
     void handleCommands(MessageReceivedEvent event, String[] command) {
         //switch > if
+        if (command.length >= 2) {
+            if (command[0].equals("varied")) {
+                String Smessage = messageContent.substring(8);
+                String[] everyChar = Smessage.split("");
+                String outgoingMessage = ""; //darf nicht null sein, muss als "" deklariert werden
+                String einChar;
+
+                for (int i = 0; i < everyChar.length; i++) {
+                    if (i % 2 == 1) {
+                        einChar = everyChar[i].toUpperCase();
+                    } else {
+                        einChar = everyChar[i].toLowerCase();
+                    }
+                        outgoingMessage += einChar;
+                    }
+
+                    embedBuilder.addField("Varieded Message:", "\n" + outgoingMessage, false);
+                    Channel.sendMessage(embedBuilder.build()).queue();
+                    nonEmbed = true;
+                
+            } else if (command[0].equals("quote")) {
+            
+                embedBuilder.addField("", messageContent.substring(7), false);
+                embedBuilder.addField("~" + eventMember.getEffectiveName(), "", false);
+                Channel.sendMessage(embedBuilder.build()).queue();
+                nonEmbed = true;
+            }
+        }
+        
+        
         switch (command.length) {
             case 1:
                 switch (command[0]) {
                     case "v":
                     case "version":
-                        embedBuilder.addField("Version", "2.03", false);
+                        embedBuilder.addField("Version", "2.05", false);
                         break;
                     case "blubb":
                         embedBuilder.addField("Commands", commands, false);
@@ -113,32 +143,9 @@ public class SuperListenerv1 extends ListenerAdapter {
                     case "cn":
                         embedBuilder.addField("Codenames", "https://codenames.game/", false);
                         break;
-                    case "quote":
-                        embedBuilder.addField("", event.getMessage().getContentDisplay().substring(7), false);
-                        embedBuilder.addField("~" + event.getMember().getEffectiveName(), "", false);
-                        Channel.sendMessage(eventMember + " wanted me to Quote " + messageContent).queue();
-                        break;
                     case "stats":
                     case "memberstats":
                         memberStats();
-                        break;
-                    case "varied":
-                        String Smessage = messageContent.substring(8);
-                        String[] everyChar = Smessage.split("");
-                        String outgoingMessage = ""; //darf nicht null sein, muss als "" deklariert werden
-                        String einChar;
-
-                        for (int i = 0; i < everyChar.length; i++) {
-                            if (i % 2 == 1) {
-                                einChar = everyChar[i].toUpperCase();
-                            } else {
-                                einChar = everyChar[i].toLowerCase();
-                            }
-                            outgoingMessage += einChar;
-                        }
-
-                        embedBuilder.addField("Varieded Message:", "\n" + outgoingMessage, false);
-                        Channel.sendMessage(eventMember + " wanted me to varied " + Smessage).queue();
                         break;
                     case "ohrwurm":
                         embedBuilder.addField("3 Giraffen mit nem Kontrabass", "Drei Giraffen mit dem Kontrabass\nsaßen auf der Straße und erzählten sich was\n"
@@ -408,6 +415,8 @@ public class SuperListenerv1 extends ListenerAdapter {
                 embedBuilder.addField("Unbekannter", "Ein mystischer Unbekannter welchen ich nicht in meiner Datenbank finde. Sollte es sich um einen Fehler handeln benachrichtige bitte <@264396390199721984>", false);
                 break;
         }
+        Channel.sendMessage(embedBuilder.build()).queue();
+        nonEmbed = true;
     }
     
     void memberStats() {
