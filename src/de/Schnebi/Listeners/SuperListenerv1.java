@@ -203,6 +203,8 @@ public class SuperListenerv1 extends ListenerAdapter {
         }
         if (!nonEmbed) {
         Channel.sendMessage(embedBuilder.build()).queue();
+        } else {
+            nonEmbed = false;
         }
         //Nachricht muss am ende des Switches gesendet werden. Ausnahmefälle sowie unbekannte Commands müssen mit einer Fehlermeldung ausgegeben werden
         //embedBuilder.addField(":thinking: hmmm", "Ups, da lief was schief. Ich kenne diesen Command nicht", false);
