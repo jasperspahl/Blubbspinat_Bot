@@ -104,7 +104,7 @@ public class SuperListenerv1 extends ListenerAdapter {
                         break;
                     case "garticphone":
                     case "gp":
-                        embedBuilder.addField("Garlic Phone - Stille Post", "https://garticphone.com/de", false);
+                        embedBuilder.addField("Gartic Phone - Stille Post", "https://garticphone.com/de", false);
                         break;
                     case "cardsagainsthumanity":
                     case "cah":
@@ -492,7 +492,6 @@ public class SuperListenerv1 extends ListenerAdapter {
 
             embedBuilder.addField("Auf dem Server seit:", DateOnServer, true);
             //Message send
-            Channel.sendMessage(embedBuilder.build()).queue();
             System.out.println("CommandListener: Detected message 'stats' with argslength of 1. Responding by to User " + eventMember.getEffectiveName() + " by giving following stats: \n" + TimeCreated + "\n"
                     + TimeCreatedLocalTime.toString().substring(0, 8) + "\n" + TimeJoined + "\n" + TimeJoinedLocalTime.toString().substring(0, 8) + "\nmay be not correct idk didnt rework this");
         } else if (args.length == 2) {
@@ -588,7 +587,6 @@ public class SuperListenerv1 extends ListenerAdapter {
                 embedBuilder.addField("Auf dem Server seit:", DateOnServer, true);
 
                 //Message send
-                Channel.sendMessage(embedBuilder.build()).queue();
                 System.out.println("CommandListener: Detected message 'stats' with argslength of 1. Responding by to User " + eventMember.getEffectiveName() + " by giving following stats of "
                         + MemberStats.getNickname() + ": \n" + TimeCreated + "\n" + TimeCreatedLocalTime.toString().substring(0, 8) + "\n" + TimeJoined + "\n" + TimeJoinedLocalTime.toString().substring(0, 8));
             }
