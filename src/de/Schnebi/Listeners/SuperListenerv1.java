@@ -117,7 +117,7 @@ public class SuperListenerv1 extends ListenerAdapter {
                         embedBuilder.addField("", event.getMessage().getContentDisplay().substring(7), false);
                         embedBuilder.addField("~" + event.getMember().getEffectiveName(), "", false);
                         Channel.sendMessage(eventMember + " wanted me to Quote " + messageContent).queue();
-                        //ich könnte mir vorstellen dass es hier ein Error gibt, eventuell mal normal abfragen
+                        break;
                     case "stats":
                     case "memberstats":
                         memberStats();
