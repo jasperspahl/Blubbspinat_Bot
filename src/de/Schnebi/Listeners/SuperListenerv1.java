@@ -114,15 +114,17 @@ public class SuperListenerv1 extends ListenerAdapter {
                         embedBuilder.addField("Codenames", "https://codenames.game/", false);
                         break;
                     case "quote":
-                        embedBuilder.addField("", messageContent.substring(7), false);
-                        embedBuilder.addField("~" + eventMember.getEffectiveName(), "", false);
+                        embedBuilder.addField("", event.getMessage().getContentDisplay().substring(7), false);
+                        embedBuilder.addField("~" + event.getMember().getEffectiveName(), "", false);
+                        Channel.sendMessage(eventMember + " wanted me to Quote " + messageContent).queue();
+                        //ich könnte mir vorstellen dass es hier ein Error gibt, eventuell mal normal abfragen
                     case "stats":
                     case "memberstats":
                         memberStats();
                         break;
                     case "varied":
-                        String message = messageContent.substring(8);
-                        String[] everyChar = message.split("");
+                        String Smessage = messageContent.substring(8);
+                        String[] everyChar = Smessage.split("");
                         String outgoingMessage = ""; //darf nicht null sein, muss als "" deklariert werden
                         String einChar;
 
@@ -136,6 +138,7 @@ public class SuperListenerv1 extends ListenerAdapter {
                         }
 
                         embedBuilder.addField("Varieded Message:", "\n" + outgoingMessage, false);
+                        Channel.sendMessage(eventMember + " wanted me to varied " + Smessage).queue();
                         break;
                     case "ohrwurm":
                         embedBuilder.addField("3 Giraffen mit nem Kontrabass", "Drei Giraffen mit dem Kontrabass\nsaßen auf der Straße und erzählten sich was\n"
@@ -200,7 +203,6 @@ public class SuperListenerv1 extends ListenerAdapter {
         if (args[0].equalsIgnoreCase("werist")) {
             weristHandler(event);
         }
-        
         
         if (!nonEmbed) {
         Channel.sendMessage(embedBuilder.build()).queue();
