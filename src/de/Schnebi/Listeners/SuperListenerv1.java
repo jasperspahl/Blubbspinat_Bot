@@ -92,6 +92,10 @@ public class SuperListenerv1 extends ListenerAdapter {
         switch (command.length) {
             case 1:
                 switch (command[0]) {
+                    case "v":
+                    case "version":
+                        embedBuilder.addField("Version", "2.0", false);
+                        break;
                     case "blubb":
                         embedBuilder.addField("Commands", commands, false);
                         break;
@@ -196,7 +200,7 @@ public class SuperListenerv1 extends ListenerAdapter {
             default:
                 embedBuilder.addField(":thinking: hmmm", "Ups, da lief was schief. Ich kenne diesen Command nicht", false);
                 
-                }
+        }
         if (!nonEmbed) {
         Channel.sendMessage(embedBuilder.build()).queue();
         }
