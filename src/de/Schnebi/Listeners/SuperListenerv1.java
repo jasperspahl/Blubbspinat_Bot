@@ -208,8 +208,10 @@ public class SuperListenerv1 extends ListenerAdapter {
         }
         if (args[0].equalsIgnoreCase("werist")) {
             weristHandler(event);
+            nonEmbed = true;
         } else if (args[0].equalsIgnoreCase("stats") || args[0].equalsIgnoreCase("memberstats")) {
             memberStats();
+            nonEmbed = true;
         }
         
         if (!nonEmbed) {
@@ -417,7 +419,6 @@ public class SuperListenerv1 extends ListenerAdapter {
                 break;
         }
         Channel.sendMessage(embedBuilder.build()).queue();
-        nonEmbed = true;
     }
     
     void memberStats() {
