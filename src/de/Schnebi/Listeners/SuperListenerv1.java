@@ -174,10 +174,6 @@ public class SuperListenerv1 extends ListenerAdapter {
                 break;
             case 2:
                 switch (command[0]) {
-                    case "stats":
-                    case "memberstats":
-                        memberStats();
-                        break;
                     case "dice":
                     case "würfel":
                         luckHandler(event, "customdice");
@@ -212,6 +208,8 @@ public class SuperListenerv1 extends ListenerAdapter {
         }
         if (args[0].equalsIgnoreCase("werist")) {
             weristHandler(event);
+        } else if (args[0].equalsIgnoreCase("stats") || args[0].equalsIgnoreCase("memberstats")) {
+            memberStats();
         }
         
         if (!nonEmbed) {
