@@ -203,20 +203,20 @@ public class SuperListenerv1 extends ListenerAdapter {
                 break;
                 
             default:
-                embedBuilder.addField(":thinking: hmmm", "Ups, da lief was schief. Ich kenne diesen Command nicht", false);
+                if (args[0].equalsIgnoreCase("werist")) {
+                    weristHandler(event);
+                    nonEmbed = true;
+                } else if (args[0].equalsIgnoreCase("stats") || args[0].equalsIgnoreCase("memberstats")) {
+                    memberStats();
+                    nonEmbed = true;
+                } else if (args[0].equalsIgnoreCase("umfrage") ||args[0].equalsIgnoreCase("giveaway")) {
+                    nonEmbed = true;
+                } else {
+                    embedBuilder.addField(":thinking: hmmm", "Ups, da lief was schief. Ich kenne diesen Command nicht", false);
+                }
                 
         }
-        if (args[0].equalsIgnoreCase("werist")) {
-            weristHandler(event);
-            nonEmbed = true;
-        } else if (args[0].equalsIgnoreCase("stats") || args[0].equalsIgnoreCase("memberstats")) {
-            memberStats();
-            nonEmbed = true;
-        }
         
-        if (args[0].equalsIgnoreCase("umfrage") ||args[0].equalsIgnoreCase("giveaway")) {
-            nonEmbed = true;
-        }
         
         if (!nonEmbed) {
         Channel.sendMessage(embedBuilder.build()).queue();
