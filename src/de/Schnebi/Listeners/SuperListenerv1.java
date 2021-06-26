@@ -167,9 +167,6 @@ public class SuperListenerv1 extends ListenerAdapter {
                     case "dice":
                         luckHandler(event, "dice");
                         break;
-                        
-                    default:
-                        embedBuilder.addField(":thinking: hmmm", "Ups, da lief was schief. Ich kenne diesen Command nicht", false);
                 }
                 break;
             case 2:
