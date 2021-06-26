@@ -127,7 +127,7 @@ public class SuperListenerv1 extends ListenerAdapter {
                 switch (command[0]) {
                     case "v":
                     case "version":
-                        embedBuilder.addField("Version", "2.05", false);
+                        embedBuilder.addField("Version", "2.08", false);
                         break;
                     case "blubb":
                         embedBuilder.addField("Commands", commands, false);
@@ -211,6 +211,10 @@ public class SuperListenerv1 extends ListenerAdapter {
             nonEmbed = true;
         } else if (args[0].equalsIgnoreCase("stats") || args[0].equalsIgnoreCase("memberstats")) {
             memberStats();
+            nonEmbed = true;
+        }
+        
+        if (args[0].equalsIgnoreCase("umfrage") ||args[0].equalsIgnoreCase("giveaway")) {
             nonEmbed = true;
         }
         
