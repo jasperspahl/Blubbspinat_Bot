@@ -419,7 +419,6 @@ public class SuperListenerv1 extends ListenerAdapter {
                 embedBuilder.addField("Unbekannter", "Ein mystischer Unbekannter welchen ich nicht in meiner Datenbank finde. Sollte es sich um einen Fehler handeln benachrichtige bitte <@264396390199721984>", false);
                 break;
         }
-        Channel.sendMessage(embedBuilder.build()).queue();
     }
     
     void memberStats() {
