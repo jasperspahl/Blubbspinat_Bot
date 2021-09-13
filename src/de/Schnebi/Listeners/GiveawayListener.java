@@ -42,11 +42,12 @@ public class GiveawayListener extends ListenerAdapter {
     @Override
 
     public void onMessageReceived(MessageReceivedEvent event) {
-        embedBuilder.clear();
         embedBuilder.setTitle("Giveaway by");
         embedBuilder.setColor(Color.GREEN);
         embedBuilder.setFooter("+blubb");
+        embedBuilder.clearFields();
 
+        
         String[] args = event.getMessage().getContentDisplay().split(" ");
         String messageContent = event.getMessage().getContentDisplay();
         if (args[0].equalsIgnoreCase("+giveaway")) {
@@ -54,7 +55,6 @@ public class GiveawayListener extends ListenerAdapter {
                 embedBuilder.addField("Giveaway am laufen", "Es ist bereits ein Giveaway am laufen. Bitte warte bis das Giveaway zu Ende ist", false);
                 event.getChannel().sendMessage(embedBuilder.build()).queue();
             } else {
-                event.getChannel().deleteMessageById(event.getMessageId()).queue();
                 try {
                     item = messageContent.substring(10, messageContent.length() - args[args.length - 1].length() - 1);
 
@@ -82,16 +82,15 @@ public class GiveawayListener extends ListenerAdapter {
 
                         timerNr2.scheduleAtFixedRate(new TimerTask() {
                             public void run() {
-                                embedBuilder.clear();
-                                embedBuilder.setFooter("+blubb");
-                                embedBuilder.setColor(Color.GREEN);
-                                embedBuilder.setTitle("Giveaway by");
+                                embedBuilder.clearFields();
                                 embedBuilder.addField(event.getMember().getEffectiveName(), "Zu gewinnen gibt es '" + item + "'. Reagiert auf diese Nachricht um als Teilnehmer registriert zu werden\n", false);
                                 embedBuilder.addField("Verbleibende Zeit", convertmillis(timeInMS), false);
-                                message.editMessage(embedBuilder.build()).queue();
+                                if (timeInMS > 1) {
+                                    message.editMessage(embedBuilder.build()).queue();
+                                }
                                 timeInMS = timeInMS - 5L * secondMS;
                             }
-                        }, 0, 5L * secondMS);
+                        }, 0, 5 * secondMS);
 
                         timer.schedule(new TimerTask() {
                             public void run() {
@@ -108,13 +107,16 @@ public class GiveawayListener extends ListenerAdapter {
                     timerReveal.schedule(new TimerTask() {
                         public void run() {
                             Random random = new Random();
-                            int randomNumer = random.nextInt(participants.size());
-                            embedBuilder.clear();
-                            embedBuilder.setTitle("Giveaway by");
-                            embedBuilder.setFooter("+blubb");
-                            embedBuilder.setColor(Color.GREEN);
-                            embedBuilder.addField(event.getMember().getEffectiveName(), "Der Gewinner des Giveaways von " + item + " ist " + participants.get(randomNumer).getAsMention()
-                                    + "!\nGlückwunsch an ihn und viel Glück beim nächsten Mahl an die anderen " + (participants.size() - 1) + " Teilnehmer!", false);
+
+                            embedBuilder.clearFields();
+
+                            if (participants.size() > 0) {
+                                int randomNumer = random.nextInt(participants.size());
+                                embedBuilder.addField(event.getMember().getEffectiveName(), "Der Gewinner des Giveaways von " + item + " ist " + participants.get(randomNumer).getAsMention()
+                                        + "!\nGlückwunsch an ihn und viel Glück beim nächsten Mahl an die anderen " + (participants.size() - 1) + " Teilnehmer!", false);
+                            } else {
+                                embedBuilder.addField("Niemand", "Bedauerlicher weise hat sich niemand als Gewinner für " + item + " registriert. Vielleicht beim nächsten mal", false);
+                            }
 
                             event.getChannel().sendMessage(embedBuilder.build()).queue();
                             running = false;
@@ -135,14 +137,14 @@ public class GiveawayListener extends ListenerAdapter {
     public void onGuildMessageReactionAdd(GuildMessageReactionAddEvent ReactionAddEvent) {
         if (ReactionAddEvent.getReactionEmote().getAsCodepoints().equals("U+1f389") && ReactionAddEvent.getMessageId().equals(messageID) && !ReactionAddEvent.getUser().isBot()) {
             participants.add(ReactionAddEvent.getMember());
-            System.out.println("Added User to participants, user is " + ReactionAddEvent.getMember());
+            System.out.println("GiveawayListener: Added User to participants, user is " + ReactionAddEvent.getMember());
         }
     }
 
     public void onGuildMessageReactionRemove(GuildMessageReactionRemoveEvent ReactionRemoveEvent) {
         if (ReactionRemoveEvent.getReactionEmote().getAsCodepoints().equals("U+1f389") && ReactionRemoveEvent.getMessageId().equals(messageID) && !ReactionRemoveEvent.getUser().isBot()) {
             participants.remove(ReactionRemoveEvent.getMember());
-            System.out.println("Removed User to participants, user is " + ReactionRemoveEvent.getMember());
+            System.out.println("GiveawayListener: Removed User to participants, user is " + ReactionRemoveEvent.getMember());
         }
     }
 
