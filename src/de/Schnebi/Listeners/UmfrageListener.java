@@ -37,7 +37,6 @@ public class UmfrageListener extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent event) {
         String[] args = event.getMessage().getContentDisplay().split(" ");
         if (args[0].equalsIgnoreCase("+umfrage")) {
-            channel.deleteMessageById(event.getMessageId()).queue();
             if (deleted) {
                 initialiser = event.getMember();
                 channel = event.getTextChannel();
