@@ -29,7 +29,7 @@ public class GiveawayListener extends ListenerAdapter {
     public static EmbedBuilder embedBuilder = new EmbedBuilder();
 
     public static String item, unit;
-    public static int time, secondMS = 1000;
+    public static int time, milisecsToSec = 1000;
     public static long timeInMS;
     public static List<Member> participants = new ArrayList<>();
     public static Timer timer = new Timer();
@@ -62,13 +62,13 @@ public class GiveawayListener extends ListenerAdapter {
                     unit = args[args.length - 1].substring(args[args.length - 1].length() - 1, args[args.length - 1].length());
 
                     if (unit.equalsIgnoreCase("s")) {
-                        timeInMS = (long) time * secondMS;
+                        timeInMS = (long) time * milisecsToSec;
                     } else if (unit.equalsIgnoreCase("m")) {
-                        timeInMS = (long) time * 60 * secondMS;
+                        timeInMS = (long) time * 60 * milisecsToSec;
                     } else if (unit.equalsIgnoreCase("h")) {
-                        timeInMS = (long) time * 60 * 60 * secondMS;
+                        timeInMS = (long) time * 60 * 60 * milisecsToSec;
                     } else if (unit.equalsIgnoreCase("d")) {
-                        timeInMS = (long) 24 * 60 * 60 * secondMS;
+                        timeInMS = (long) 24 * 60 * 60 * milisecsToSec;
                     }
 
                     embedBuilder.addField(event.getMember().getEffectiveName(), "Zu gewinnen gibt es '" + item + "'. Reagiert auf diese Nachricht um als Teilnehmer registriert zu werden\n", false);
@@ -88,9 +88,9 @@ public class GiveawayListener extends ListenerAdapter {
                                 if (timeInMS > 1) {
                                     message.editMessage(embedBuilder.build()).queue();
                                 }
-                                timeInMS = timeInMS - 5L * secondMS;
+                                timeInMS = timeInMS - 5 * milisecsToSec;
                             }
-                        }, 0, 5 * secondMS);
+                        }, 0, 5 * milisecsToSec);
 
                         timer.schedule(new TimerTask() {
                             public void run() {
