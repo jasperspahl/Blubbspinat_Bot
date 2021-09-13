@@ -159,7 +159,7 @@ public class SuperListenerv1 extends ListenerAdapter {
                         embedBuilder.addField("Frühstück", "Also Frühstück ist wenn zwei Individuuen einer Tierart (oder unterschiedlicher Tierarten) sich zu einem nächtlichen oder täglichen Beischlaf treffen, um die Möglichkeit der Fortpflanzung herbeizuführen oder  skandalöserweise einfach Spaß zu haben", false);
                         embedBuilder.addField("~Anonymer Author", "https://discord.com/channels/788794254125432849/790513198662680616/824921467002028032", false);
                         break;
-                    case "münzwürf":
+                    case "münzwurf":
                     case "coinflip":
                         luckHandler(event, "coin");
                         break;
@@ -262,7 +262,6 @@ public class SuperListenerv1 extends ListenerAdapter {
                 String outcome;
                 
                 randomNumber = new Random().nextInt(101) - 1;
-                
                 switch (randomNumber % 2) {
                     case 0:
                         outcome = "Kopf";
@@ -280,8 +279,8 @@ public class SuperListenerv1 extends ListenerAdapter {
                 embedBuilder.addField("Würfelwurf:", Integer.toString(randomNumber), false);
                 break;
             case "customdice":
-                int randomNumer = random.nextInt(Integer.parseInt(args[1]));
-                embedBuilder.addField("Würfelwurf:", Integer.toString(randomNumer), false);
+                int randomNumer = random.nextInt(Integer.parseInt(args[1])) + 1;
+                embedBuilder.addField("Würfelwurf von 1-" + Integer.parseInt(args[1]) + ":", Integer.toString(randomNumer), false);
                 break;
         }
     }
