@@ -2,7 +2,7 @@ package de.Schnebi;
 
 import de.Schnebi.Listeners.GiveawayListener;
 import de.Schnebi.Listeners.SchnebiLogger;
-import de.Schnebi.Listeners.SuperListenerv1;
+import de.Schnebi.Listeners.SuperListenerV2;
 import de.Schnebi.Listeners.TicTacToeListener;
 import de.Schnebi.Listeners.UmfrageListener;
 
@@ -43,7 +43,7 @@ public class BlubbspinatBot_MainClass {
         builder.addEventListeners(new GiveawayListener());
         builder.addEventListeners(new UmfrageListener());
 
-        builder.addEventListeners(new SuperListenerv1());
+        builder.addEventListeners(new SuperListenerV2());
 
         this.shardMan = builder.build();
         CheckForShutdown();
