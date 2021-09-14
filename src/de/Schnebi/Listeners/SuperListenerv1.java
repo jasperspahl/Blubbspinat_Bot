@@ -37,7 +37,7 @@ public class SuperListenerv1 extends ListenerAdapter {
     //strg+c & strg+v
     String commands = "```prefix: Gibt den prefix an, in diesem Fall '" + prefix + "'\nblubb: Listet unsere Commands auf.\nhallo: blubb!\nwerist @User: Gibt informationen über den User wieder"
             + "\ncoinflip/münzwurf: Wirft eine Münze\ndice/würfel: Würfelt eine zufüllige Zahl\ngarticphone/gp: Link für Gartic Phone\ncardsagainsthumanity/cah: Link für Cards Against Humanity"
-            + "\nquote: Zitiert dich selbst\nstats: Zeigt die Statistik eines Nutzers an\nvaried: nA wAs MaChT dAs WoHl?\nohrwurm: Drei Chinesen mit dem Kontrabass\ngiveaway: Erlaubt es dir etwas an andere zu verschenken"
+            + "\nCodenames/cn: Link für Codenames\nquote: Zitiert dich selbst\nstats: Zeigt die Statistik eines Nutzers an\nvaried: nA wAs MaChT dAs WoHl?\nohrwurm: Drei Chinesen mit dem Kontrabass\ngiveaway: Erlaubt es dir etwas an andere zu verschenken"
             + "\numfrage: Erlaubt es dir eine Umfrage aus zwei Optionen zu erstellen\ntoggle space(s): (De)Aktiviert die Leerzeichenersetzung```";
     String registredGifs = "```\nrawr\nyallah\negal\nohgod```";
     
@@ -136,6 +136,7 @@ public class SuperListenerv1 extends ListenerAdapter {
                         embedBuilder.addField("Blubb", "blubb blubb blubb!", false);
                         break;
                     case "garticphone":
+                    case "gtp":
                     case "gp":
                         embedBuilder.addField("Gartic Phone - Stille Post", "https://garticphone.com/de", false);
                         break;
