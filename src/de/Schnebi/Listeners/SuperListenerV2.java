@@ -111,7 +111,7 @@ public class SuperListenerV2 extends ListenerAdapter {
                 embedBuilder.addField("3 Chinesen mit nem Kontrabass", orignal_text.replaceAll(command[1], command[2]), false);
             } else if (command[0].equalsIgnoreCase("werist")) {
                 
-            } else if (command[0].equalsIgnoreCase("giveaway") || command[0].equalsIgnoreCase("umfrage")) {
+            } else if (command.length == 3 && (command[0].equalsIgnoreCase("giveaway") || command[0].equalsIgnoreCase("umfrage"))) {
                 send_on_final = false;
             }
             
