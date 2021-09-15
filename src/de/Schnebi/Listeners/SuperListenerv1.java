@@ -153,8 +153,8 @@ public class SuperListenerv1 extends ListenerAdapter {
                         memberStats();
                         break;
                     case "ohrwurm":
-                        embedBuilder.addField("3 Giraffen mit nem Kontrabass", "Drei Giraffen mit dem Kontrabass\nsaßen auf der Straße und erzählten sich was\n"
-                                    + "Da kamen die Elefanten, fragten 'Was ist denn das?'\nDrei Giraffen mit dem Kontrabass!", false);
+                        embedBuilder.addField("3 Chinesen mit nem Kontrabass", "Drei Chinesen mit dem Kontrabass\nsaßen auf der Straße und erzählten sich was\n"
+                                    + "Da kam die Polizei, fragt 'Was ist denn das?'\nDrei Chinesen mit dem Kontrabass.", false);
                         break;
                     case "frühstück":
                         embedBuilder.addField("Frühstück", "Also Frühstück ist wenn zwei Individuuen einer Tierart (oder unterschiedlicher Tierarten) sich zu einem nächtlichen oder täglichen Beischlaf treffen, um die Möglichkeit der Fortpflanzung herbeizuführen oder  skandalöserweise einfach Spaß zu haben", false);

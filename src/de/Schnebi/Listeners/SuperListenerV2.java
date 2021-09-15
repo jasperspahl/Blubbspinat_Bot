@@ -43,14 +43,16 @@ public class SuperListenerV2 extends ListenerAdapter {
         if (event.isFromType(ChannelType.TEXT) && event.getMessage().getAttachments().size() == 0) {
             if (!(event.getAuthor().isBot())) {
                 embedBuilder.clearFields();
-                if (toggled_spaces || event.getMessage().getContentDisplay().contains("  ")) {
+                if (toggled_spaces && event.getMessage().getContentDisplay().contains("  ")) {
                     String content = event.getMessage().getContentDisplay();
+                    System.out.println(event.getMessage().getContentDisplay());
                     int counter = 0;
-                    do {
+                    while (content.contains("  ")) {
                         content = content.replaceFirst("  ", " ");
                         counter++;
-                    } while (content.contains("  "));
+                    }
                     embedBuilder.addField(event.getMember().getEffectiveName() + " wollte:", content + "\n\n sagen und nutze dabei `" + counter + "` Leerzeichen zu viel :man_facepalming:.", false);
+                    Channel.deleteMessageById(event.getMessageId()).queue();
                     Channel.sendMessage(embedBuilder.build()).queue();
                 } else {
                     eventMember = event.getMember();
@@ -73,7 +75,7 @@ public class SuperListenerV2 extends ListenerAdapter {
 
                     if (messageContent.startsWith(prefix)) {
                         args = messageContent.substring(1).split(" ");
-                        handleCommands(event, args);
+                            handleCommands(event, args);
                     }
                 }
             }
@@ -83,7 +85,6 @@ public class SuperListenerV2 extends ListenerAdapter {
     
     
     void handleCommands(MessageReceivedEvent event, String[] command) {
-        System.out.println("handling commands");
         send_on_final = true;
         if (command.length >= 2) {
             if (command[0].equals("varied")) {
@@ -104,7 +105,18 @@ public class SuperListenerV2 extends ListenerAdapter {
             } else if (command[0].equals("quote")) {
                 embedBuilder.addField("", messageContent.substring(7), false);
                 embedBuilder.addField("~" + eventMember.getEffectiveName(), "", false);
+            } else if (command[0].equalsIgnoreCase("ohrwurm")) {
+                String orignal_text = "Drei Chinesen mit dem Kontrabass,\nsaßen auf der Straße und erzählten sich was,\n"
+                        + "Da kam die Polizei, fragt 'Was ist denn das?'\nDrei Chinesen mit dem Kontrabass.";
+                embedBuilder.addField("3 Chinesen mit nem Kontrabass", orignal_text.replaceAll(command[1], command[2]), false);
+            } else if (command[0].equalsIgnoreCase("werist")) {
+                
+            } else if (command[0].equalsIgnoreCase("giveaway") || command[0].equalsIgnoreCase("umfrage")) {
+                send_on_final = false;
             }
+            
+            
+            
         }
         
         if (command.length == 2) {
@@ -137,8 +149,47 @@ public class SuperListenerV2 extends ListenerAdapter {
                     case "gifs":
                         gifHandler(event, command[1]);
                         break;
-                }
+            }
+        } else if (command.length == 1) {
+            switch (command[0]) {
+                case "blubb":
+                    embedBuilder.addField("Commands", commands, false);
+                    break;
+                case "hallo":
+                    embedBuilder.addField("Blubb", "blubb blubb blubb!", false);
+                    break;
+                case "garticphone":
+                case "gtp":
+                case "gp":
+                    embedBuilder.addField("Gartic Phone - Stille Post", "https://garticphone.com/de", false);
+                    break;
+                case "cardsagainsthumanity":
+                case "cah":
+                    embedBuilder.addField("Cards against Humanity", "https://picturecards.online/static/index.html", false);
+                    break;
+                case "codenames":
+                case "cn":
+                    embedBuilder.addField("Codenames", "https://codenames.game/", false);
+                    break;
+                case "frühstück":
+                    embedBuilder.addField("Frühstück", "Also Frühstück ist wenn zwei Individuuen einer Tierart (oder unterschiedlicher Tierarten) sich zu einem nächtlichen oder täglichen Beischlaf treffen, um die Möglichkeit der Fortpflanzung herbeizuführen oder  skandalöserweise einfach Spaß zu haben", false);
+                    embedBuilder.addField("~Anonymer Author", "https://discord.com/channels/788794254125432849/790513198662680616/824921467002028032", false);
+                    break;
+                case "ohrwurm":
+                    embedBuilder.addField("3 Chinesen mit nem Kontrabass", "Drei Chinesen mit dem Kontrabass\nsaßen auf der Straße und erzählten sich was\n"
+                            + "Da kam die Polizei, fragt 'Was ist denn das?'\nDrei Chinesen mit dem Kontrabass.", false);
+                    break;
+                case "münzwurf":
+                case "coinflip":
+                    luckHandler(event, "coin");
+                    break;
+                case "würfel":
+                case "dice":
+                    luckHandler(event, "dice");
+                    break;
+            }
         }
+
         if (embedBuilder.getFields().isEmpty()) {
             embedBuilder.addField(":thinking: hmmm", "Ups, da lief was schief. Ich kenne diesen Command nicht", false);
         }
