@@ -48,6 +48,7 @@ public class SuperListenerV2 extends ListenerAdapter {
         if (event.isFromType(ChannelType.TEXT) && event.getMessage().getAttachments().size() == 0) {
             if (!(event.getAuthor().isBot())) {
                 embedBuilder.clearFields();
+                embedBuilder.setImage(null);
                 if (toggled_spaces && event.getMessage().getContentDisplay().contains("  ")) {
                     String content = event.getMessage().getContentDisplay();
                     System.out.println(event.getMessage().getContentDisplay());
@@ -140,13 +141,13 @@ public class SuperListenerV2 extends ListenerAdapter {
                         break;
                     case "delete":
                         int amount = Integer.parseInt(command[1]);
-                        if (3 <= amount && amount <= 51) {
+                        if (3 <= amount && amount <= 101) {
                             List<Message> messages = Channel.getHistory().retrievePast(amount).complete();
                             messages.remove(0);
                             Channel.deleteMessages(messages).complete();
                             embedBuilder.addField("Gelöschte Nachrichten", "Ich habe erfolgreich " + amount + " Nachrichten gelöscht", false);
                         } else {
-                            embedBuilder.addField("Fehler: Anzahl", "Mögliche Werte für diesen Command sind ```3-51```", false);
+                            embedBuilder.addField("Fehler: Anzahl", "Mögliche Werte für diesen Command sind ```3-101```", false);
                         }
                         break;
                     case "gif":
@@ -321,8 +322,11 @@ public class SuperListenerV2 extends ListenerAdapter {
     
     void memberStats() {
         if (args.length == 1) {
-            embedBuilder.addField("User: ", eventMember.getEffectiveName(), false);
-            embedBuilder.addField("ID", eventMember.getId(), false);
+            embedBuilder.addField("User: ", eventMember.getEffectiveName(), true);
+            embedBuilder.addBlankField(true);
+            embedBuilder.addField("ID", eventMember.getId(), true);
+            embedBuilder.addBlankField(false);
+            embedBuilder.setImage(eventMember.getUser().getAvatarUrl());
             //
             //Created
             LocalDate TimeCreatedLocalDate = eventMember.getTimeCreated().toLocalDate();
@@ -403,19 +407,19 @@ public class SuperListenerV2 extends ListenerAdapter {
             } else if (DateOnServerDay > 0) {
                 DateOnServer = DateOnServerDay + strDay;
             }
-
-            embedBuilder.addField("Auf dem Server seit:", DateOnServer, true);
-            //Message send
-            System.out.println("CommandListener: Detected message 'stats' with argslength of 1. Responding by to User " + eventMember.getEffectiveName() + " by giving following stats: \n" + TimeCreated + "\n"
-                    + TimeCreatedLocalTime.toString().substring(0, 8) + "\n" + TimeJoined + "\n" + TimeJoinedLocalTime.toString().substring(0, 8) + "\nmay be not correct idk didnt rework this");
+            embedBuilder.addBlankField(false);
+            embedBuilder.addField("Auf dem Server seit:", DateOnServer, false);
+            embedBuilder.addField("", "**Avatar:**", false);
         } else {
             List<Member> TaggedUsers = message.getMentionedMembers();
             Member MemberStats = TaggedUsers.get(0);
 
             if (MemberStats.hasPermission(Permission.VIEW_CHANNEL)) {
-
-                embedBuilder.addField("User: ", MemberStats.getEffectiveName(), false);
-                embedBuilder.addField("ID", MemberStats.getId(), false);
+                embedBuilder.addField("User: ", MemberStats.getEffectiveName(), true);
+                embedBuilder.addBlankField(true);
+                embedBuilder.addField("ID", MemberStats.getId(), true);
+                embedBuilder.addBlankField(false);
+                embedBuilder.setImage(MemberStats.getUser().getAvatarUrl());
                 //                        
                 //Created
                 LocalDate TimeCreatedLocalDate = MemberStats.getTimeCreated().toLocalDate();
@@ -497,8 +501,9 @@ public class SuperListenerV2 extends ListenerAdapter {
                 } else if (DateOnServerDay > 0) {
                     DateOnServer = DateOnServerDay + strDay;
                 }
-
-                embedBuilder.addField("Auf dem Server seit:", DateOnServer, true);
+                embedBuilder.addBlankField(false);
+                embedBuilder.addField("Auf dem Server seit:", DateOnServer, false);
+                embedBuilder.addField("", "**Avatar:**", false);
             }
         }
     }
