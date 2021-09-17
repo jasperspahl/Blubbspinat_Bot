@@ -18,6 +18,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 /**
@@ -157,6 +158,7 @@ public class SuperListenerV2 extends ListenerAdapter {
             switch (command[0]) {
                 case "blubb":
                     embedBuilder.addField("Commands", commands, false);
+                    
                     break;
                 case "hallo":
                     embedBuilder.addField("Blubb", "blubb blubb blubb!", false);
@@ -557,5 +559,19 @@ public class SuperListenerV2 extends ListenerAdapter {
         if (!send_on_final) {
             Channel.sendMessage(gifLink).queue();
         }
+    }
+    
+    public void onGuildMessageReactionAdd(GuildMessageReactionAddEvent ReactionAddEvent) {
+        if (!ReactionAddEvent.getUser().isBot() && (ReactionAddEvent.getMessageId().equals("819306181595365386") || ReactionAddEvent.getMessageId().equals("819306180425810000")) && ReactionAddEvent.getReactionEmote().getAsCodepoints().equals("U+1f504")) {
+            ReactionAddEvent.getReaction().removeReaction(ReactionAddEvent.getUser()).queue();
+            embedBuilder.clear();
+            embedBuilder.setTitle("Blubbspinat Bot");
+            embedBuilder.setFooter("+blubb");
+            embedBuilder.setColor(Color.GREEN);
+            embedBuilder.addField("Commands", commands, false);
+            ReactionAddEvent.getChannel().editMessageById("819306181595365386", embedBuilder.build()).queue();
+            embedBuilder.clearFields();
+        }
+        
     }
 }
