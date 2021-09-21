@@ -141,13 +141,13 @@ public class SuperListenerV2 extends ListenerAdapter {
                         break;
                     case "delete":
                         int amount = Integer.parseInt(command[1]);
-                        if (3 <= amount && amount <= 101) {
-                            List<Message> messages = Channel.getHistory().retrievePast(amount).complete();
+                        if (2 <= amount && amount <= 99) {
+                            List<Message> messages = Channel.getHistory().retrievePast(amount + 1).complete();
                             messages.remove(0);
                             Channel.deleteMessages(messages).complete();
                             embedBuilder.addField("Gelöschte Nachrichten", "Ich habe erfolgreich " + amount + " Nachrichten gelöscht", false);
                         } else {
-                            embedBuilder.addField("Fehler: Anzahl", "Mögliche Werte für diesen Command sind ```3-101```", false);
+                            embedBuilder.addField("Fehler: Anzahl", "Mögliche Werte für diesen Command sind ```2-99```", false);
                         }
                         break;
                     case "gif":
