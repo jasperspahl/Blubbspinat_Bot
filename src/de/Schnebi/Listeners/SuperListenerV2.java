@@ -119,7 +119,7 @@ public class SuperListenerV2 extends ListenerAdapter {
                 weristHandler();
             } else if (command[0].equalsIgnoreCase("stats") || command[0].equalsIgnoreCase("memberstats")) {
                 memberStats();
-            }else if (command.length == 3 && (command[0].equalsIgnoreCase("giveaway") || command[0].equalsIgnoreCase("umfrage"))) {
+            }else if (command[0].equalsIgnoreCase("giveaway") || command[0].equalsIgnoreCase("umfrage")) {
                 send_on_final = false;
             }
         }
