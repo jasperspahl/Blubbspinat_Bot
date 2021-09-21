@@ -6,6 +6,8 @@ import de.Schnebi.Listeners.SuperListenerV2;
 import de.Schnebi.Listeners.TicTacToeListener;
 import de.Schnebi.Listeners.UmfrageListener;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -33,7 +35,10 @@ public class BlubbspinatBot_MainClass {
 
     public BlubbspinatBot_MainClass() throws LoginException, IllegalArgumentException {
 
-        DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault("ODE5MTUyNTAyMjIyMDk0MzY2.YEidNw.BFlYeJplN3leERdC8nl6e37Zqoo");
+        Dotenv dotenv = Dotenv.load();
+        String token = dotenv.get("TOKEN");
+	
+        DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(token);
 
         builder.setActivity(Activity.watching("dass der Blubbspinat nicht überkocht"));
         builder.setStatus(OnlineStatus.ONLINE);
