@@ -586,7 +586,7 @@ public class SuperListenerV2 extends ListenerAdapter {
             embedBuilder.clearFields();
         }
         
-        if (ReactionAddEvent.getMember().getId().equals("264396390199721984") && ReactionAddEvent.getReactionEmote().getAsCodepoints().equals("U+1f5fb")) {
+        if (ReactionAddEvent.getReactionEmote().getAsCodepoints().equals("U+1f5fb")) {
             ReactionAddEvent.getChannel().deleteMessageById(ReactionAddEvent.getMessageId()).queue();
         }
         
