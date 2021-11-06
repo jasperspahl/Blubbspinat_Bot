@@ -19,6 +19,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
+import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 /**
@@ -121,6 +122,13 @@ public class SuperListenerV2 extends ListenerAdapter {
                 memberStats();
             }else if (command[0].equalsIgnoreCase("giveaway") || command[0].equalsIgnoreCase("umfrage")) {
                 send_on_final = false;
+            } else if (command[0].equalsIgnoreCase("shame")) {
+                send_on_final = false;
+                try {
+                    event.getGuild().moveVoiceMember(event.getMessage().getMentionedMembers().get(0), event.getGuild().getVoiceChannelById("906672518864187392")).queue();
+                } catch (InsufficientPermissionException e) {
+                    System.out.println("Missing Permissions");
+                }
             }
         }
         
