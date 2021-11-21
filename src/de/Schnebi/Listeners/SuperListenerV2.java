@@ -115,7 +115,10 @@ public class SuperListenerV2 extends ListenerAdapter {
             } else if (command[0].equalsIgnoreCase("ohrwurm")) {
                 String orignal_text = "Drei Chinesen mit dem Kontrabass,\nsaßen auf der Straße und erzählten sich was,\n"
                         + "Da kam die Polizei, fragt 'Was ist denn das?'\nDrei Chinesen mit dem Kontrabass.";
-                embedBuilder.addField("3 Chinesen mit nem Kontrabass", orignal_text.replaceAll(command[1], command[2]), false);
+                for (int i = 1; i < command.length; i += 2) {
+                    orignal_text = orignal_text.replaceAll(command[i], command[i + 1]);
+                }
+                embedBuilder.addField("3 Chinesen mit nem Kontrabass", orignal_text, false);
             } else if (command[0].equalsIgnoreCase("werist")) {
                 weristHandler();
             } else if (command[0].equalsIgnoreCase("stats") || command[0].equalsIgnoreCase("memberstats")) {
